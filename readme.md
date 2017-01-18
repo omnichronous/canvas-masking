@@ -1,7 +1,17 @@
-Image masking using canvas
-==========================
+Image masking using canvas and jQuery
+=====================================
 
-This is a simple demo showing you how to use canvas to mask images in the browser. This can also be done with SVG, but there are a few compatibility issues. CSS filters, I guess, will sooner or later also do the same thing. For now though, all you need to do is add the `canvasmask.js` script and add a class of `mask` to each image you want to mask. You also need to provide a PNG file as the mask using the `data-mask` attribute. For example: 
+This repository is a jQuery-based fork of [codepo8's image masking solution](https://github.com/codepo8/canvas-masking). The code has been abstracted into a function called `applyMasks()` which can be used in whatever context you require, for example applying masks on asynchronously loaded images.
+
+## Default usage:
+
+```javascript
+$(document).ready(function () {
+  applyMasks();
+});
+```
+
+By default the function loops through all `img` tags that have the `mask` class and applies the alpha mask specified in each image's `data-mask` attribute like so:
 
 ```xml
 <img src="red-panda.jpg" alt="Red panda" class="mask" data-mask="centerblur.png">
@@ -10,18 +20,14 @@ This will take the `centerblur.png` file and apply it as a mask to `red-panda.jp
 
 You can see it in action here: http://codepo8.github.io/canvas-masking/
 
-Under the hood
-==============
+## Configuration
 
-There is no magic going on here. Under the hood the script:
+The function takes only one parameter - a jQuery object to loop through. This allows applying the masks to selected elements only.
 
-* Loops over all the images with a class of `mask`
-* Creates a new image from its `data-mask` value
-* Copies the mask image to the canvas 
-* Changes the compositing of the canvas to `source-atop` to merge the images
-* writes the image back to the image element.
+```javascript
+applyMasks($('.masked'));
+```
 
-Originally I looped over all the pixels, but this is not needed as pointed out by @jaffathecake on Twitter. 
+***
 
-
-
+Many thanks to [codepo8](https://github.com/codepo8) for the original script.
